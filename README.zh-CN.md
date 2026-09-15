@@ -8,7 +8,7 @@
 
 ![多机器总览](docs/assets/overview-zh-Hans.png)
 
-**当前为 private preview，仓库暂不公开。截图和演示视频全部使用虚构机器与模拟指标。**
+**现已采用 MIT 许可证开源，目前为预览版本。截图和演示视频全部使用虚构机器与模拟指标。**
 
 ## 演示视频
 
@@ -22,7 +22,7 @@
 
 > 请阅读 https://github.com/YanjieZe/NodePeek/blob/main/docs/AGENT_INSTALL.md ，按指南在这台 Mac 上构建、安装并验证 NodePeek。保留我的 SSH 配置和现有设置，向我确认要监控的机器。
 
-仓库目前仍为 Private，需要已有 GitHub 访问权限。如果 agent 无法读取网页，可以先用已登录的 Git 克隆，再让它读取本地 `docs/AGENT_INSTALL.md`。公开后同一个链接仍可使用。远程 Linux 或云端 agent 无法直接安装到你的 Mac。
+仓库已公开，读取和克隆无需 GitHub 账号。如果 agent 无法读取网页，可以先克隆，再让它读取本地 `docs/AGENT_INSTALL.md`。远程 Linux 或云端 agent 无法直接安装到你的 Mac。
 
 安装脚本默认使用 `~/Applications/NodePeek.app`，不需要 sudo。已有版本需先退出，再用 `--replace` 升级；旧 app 会先备份。
 
@@ -50,7 +50,7 @@ cd NodePeek
 open NodePeek.app
 ```
 
-仓库仍为私有，克隆和下载需要访问权限。下载包在 Release 草稿或成功的 CI 任务中。**目前仅做本地 ad-hoc 签名，没有 Developer ID 签名和 Apple 公证**，首次打开可能被系统拦截。请阅读[安装说明](docs/INSTALL.md)，不要全局关闭 Gatekeeper。
+从 [Releases](https://github.com/YanjieZe/NodePeek/releases/tag/v0.7.2) 下载安装包和校验文件，无需 GitHub 账号。**目前仅做本地 ad-hoc 签名，没有 Developer ID 签名和 Apple 公证**，首次打开可能被系统拦截。请阅读[安装说明](docs/INSTALL.md)，不要全局关闭 Gatekeeper。
 
 ## 使用
 

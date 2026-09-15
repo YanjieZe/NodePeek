@@ -25,7 +25,7 @@ git tag "v$VERSION"
 git push origin "v$VERSION"
 ```
 
-Review the workflow result and draft release. Repository visibility remains private until explicitly changed by the owner; publishing a release does not change repository visibility.
+Review the workflow result and draft release. The repository is public. Drafts stay unpublished until deliberately published; publishing a release does not change repository visibility.
 
 ## Future Developer ID distribution
 

@@ -8,7 +8,7 @@ Install NodePeek on the user's **local Apple Silicon Mac**, macOS 13 or later. D
 
 Source compilation requires a macOS 13+ SDK and Swift compiler from Xcode 14+ or compatible Apple Command Line Tools. No paid Apple Developer account, Homebrew, Python package, API key, or third-party Swift dependency is required for the Mac app. Python 3 is only needed for developer tests and on monitored Linux hosts.
 
-The repository is currently **private**. Reading this URL alone does not grant access. If access fails, explain that repository access is required; do not ask the user to paste a token. Use their existing GitHub authentication. Once the owner makes the repo public, the same instructions work without GitHub authentication.
+The repository is **public**. Reading this guide, cloning over HTTPS, and downloading published releases require no GitHub account or token. If access fails, check the URL and network connection; do not request credentials.
 
 ## 1. Inspect and obtain the source
 

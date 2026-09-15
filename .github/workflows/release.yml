@@ -18,7 +18,7 @@ jobs:
           test "$TAG_NAME" = "v$(tr -d '\n' < VERSION)"
       - run: ./test.sh
       - run: ./package.sh
-      - name: Create private-repository draft release
+      - name: Create draft release
         env:
           GH_TOKEN: ${{ github.token }}
           TAG_NAME: ${{ github.ref_name }}

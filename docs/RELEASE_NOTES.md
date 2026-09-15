@@ -1,4 +1,4 @@
-## NodePeek 0.7.2 — private preview
+## NodePeek 0.7.2 — open-source preview
 
 Your remote machines, at a glance.
 
@@ -19,4 +19,4 @@ Apple Silicon Mac, macOS 13+. Remote Linux with Python 3; NVIDIA metrics require
 
 Download the macOS arm64 ZIP and its SHA-256 file. The app is ad-hoc signed, **not Developer ID signed or notarized**. macOS may block the initial launch. Prefer building from source if you do not wish to override that warning; otherwise follow the documented Apple per-app approval flow only after verifying the source. Do not disable Gatekeeper globally.
 
-This release remains a draft in a private repository. It is not a public launch.
+This is the first public preview, released under the MIT license.

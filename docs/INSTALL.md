@@ -14,7 +14,7 @@ The script installs into `~/Applications/NodePeek.app` and opens it. Use `--no-o
 
 ## Option B: download the preview ZIP
 
-1. Download the ZIP and corresponding `.sha256` from the repository's release or CI artifacts. While the repo is private, access is limited to invited members; release drafts are visible to repository users with appropriate permissions.
+1. Download the ZIP and corresponding `.sha256` from [Releases](https://github.com/YanjieZe/NodePeek/releases/tag/v0.7.2). Published release assets can be downloaded without a GitHub account.
 2. Verify the checksum in the download folder, replacing VERSION with the actual version:
 
    ```bash

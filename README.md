@@ -5,7 +5,7 @@
 
 ![Multi-host overview](docs/assets/overview-en.png)
 
-**Private preview.** This repository is being prepared for a public release. All screenshots and the demo below use synthetic hosts and metrics.
+**Open-source preview.** NodePeek is available under the MIT license. All screenshots and the demo below use synthetic hosts and metrics.
 
 ## Why NodePeek?
 
@@ -38,7 +38,7 @@ Tell Codex or Claude Code running on your Mac:
 
 [Agent installation guide](docs/AGENT_INSTALL.md) · [Raw Markdown](https://raw.githubusercontent.com/YanjieZe/NodePeek/main/docs/AGENT_INSTALL.md)
 
-While this repo is private, your agent needs existing GitHub access. If it cannot read the URL, clone the repo using authenticated Git and ask it to read `docs/AGENT_INSTALL.md` locally. A cloud or remote Linux agent cannot install a macOS app on your Mac.
+No GitHub account is required to read or clone this public repository. If your agent cannot read the URL, clone the repo and ask it to read `docs/AGENT_INSTALL.md` locally. A cloud or remote Linux agent cannot install a macOS app on your Mac.
 
 ### Build from source
 
@@ -51,11 +51,11 @@ cd NodePeek
 open NodePeek.app
 ```
 
-The repository is currently private, so cloning requires access. No third-party Swift or Python runtime packages are needed.
+No third-party Swift or Python runtime packages are needed.
 
 ### Download a build
 
-Invited repository members can obtain the ZIP from the private draft release or the latest successful [CI run](https://github.com/YanjieZe/NodePeek/actions). Extract it and move NodePeek.app to Applications.
+Download the ZIP and checksum from [Releases](https://github.com/YanjieZe/NodePeek/releases/tag/v0.7.2). Extract it and move NodePeek.app to Applications.
 
 **Builds are ad-hoc signed, not Developer ID signed or notarized.** macOS may block the first launch. See [installation and Gatekeeper guidance](docs/INSTALL.md). No Apple Developer account is needed to build from source.
 
