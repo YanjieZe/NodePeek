@@ -19,7 +19,12 @@ Check your remote training machines without opening another SSH terminal. NodePe
 - **English and Simplified Chinese:** follows macOS language preferences.
 - **Persistent connections:** automatic retry and sleep/wake recovery, with pause/resume controls.
 
-![Demo tour using synthetic data](docs/assets/demo.gif)
+## Demo
+
+[![Watch the 20-second NodePeek demo](docs/assets/demo.gif)](docs/assets/demo.mp4)
+
+[Watch or download the full video (MP4)](docs/assets/demo.mp4) · 20 seconds, no audio. Overview → 8-GPU details → another host → dark mode. Rendered from the actual app views using simulated metrics; no private servers or credentials appear.
+
 
 ## Get started
 
@@ -81,6 +86,7 @@ History contains the last 60 samples in memory. Collection stops during Mac slee
 ./test.sh      # Offline tests in English and Chinese
 ./package.sh   # App ZIP and SHA-256 checksum in dist/
 ./demo.sh      # Synthetic screenshots (no SSH)
+./video.sh     # Demo video and animated preview (requires ffmpeg)
 ```
 
 Tests cover first-run setup, config discovery, saved-order migration, connection preservation, native reorder handling, error classification and collector calculations. See [CONTRIBUTING.md](CONTRIBUTING.md) and [release instructions](docs/RELEASING.md).

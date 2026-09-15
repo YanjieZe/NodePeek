@@ -8,7 +8,13 @@
 
 ![多机器总览](docs/assets/overview-zh-Hans.png)
 
-**当前为 private preview，仓库暂不公开。截图和 GIF 全部使用虚构机器与模拟指标。**
+**当前为 private preview，仓库暂不公开。截图和演示视频全部使用虚构机器与模拟指标。**
+
+## 演示视频
+
+[![观看 NodePeek 20 秒演示](docs/assets/demo.gif)](docs/assets/demo.mp4)
+
+[观看或下载完整 MP4](docs/assets/demo.mp4) · 20 秒，无音频。多机器总览 → 8 张 GPU 详情 → 切换机器 → 深色模式。使用真实应用视图和模拟指标生成，不包含私人服务器信息。
 
 ## 让 Codex / Claude Code 帮你安装
 

@@ -9,6 +9,13 @@ struct Demo {
         window.appearance = NSAppearance(named: dark ? .darkAqua : .aqua)
         window.contentView = view
         view.layoutSubtreeIfNeeded()
+        // Bitmap snapshots lack the window compositor's sidebar vibrancy. Use the
+        // equivalent non-vibrant inset table style so selection text remains legible.
+        func prepareSnapshot(_ node: NSView) {
+            if let table = node as? NSTableView { table.style = .inset; table.selectionHighlightStyle = .regular }
+            node.subviews.forEach(prepareSnapshot)
+        }
+        prepareSnapshot(view)
         RunLoop.main.run(until: Date().addingTimeInterval(0.1))
         guard let bitmap = view.bitmapImageRepForCachingDisplay(in: view.bounds) else { fatalError("No bitmap") }
         view.cacheDisplay(in: view.bounds, to: bitmap)
@@ -33,6 +40,33 @@ struct Demo {
             host.sample = Sample(cpu: Double(43-index*12), cores: [128,64,24][index], memoryUsed: Double([288,92,20][index]), memoryTotal: Double([1024,256,64][index]), gpus: gpus, gpuError: nil)
             host.online = true; host.status = L("已连接"); host.updated = Date(timeIntervalSince1970: 1788220800)
             host.history = (0..<60).map { Double(72 + (($0 * 7) % 24)) }
+        }
+        if CommandLine.arguments.contains("--video") {
+            // Deterministic UI tour: 4s overview, 8s GPU details, 4s second host, 4s dark mode.
+            for frame in 0..<80 {
+                let seconds = Double(frame) / 4
+                store.overview = frame < 16
+                store.selected = store.monitors[frame >= 48 && frame < 64 ? 1 : 0].id
+                for (index, host) in store.monitors.enumerated() {
+                    guard let old = host.sample else { continue }
+                    let tick = Double(frame / 4)
+                    let gpus = old.gpus.enumerated().map { gpuIndex, gpu in
+                        GPU(index: gpu.index, name: gpu.name,
+                            utilization: min(99, max(12, 78 - Double(index * 18) + 18 * sin(tick * 0.5 + Double(gpuIndex)))),
+                            used: gpu.used, total: gpu.total, temperature: gpu.temperature, power: gpu.power)
+                    }
+                    host.sample = Sample(cpu: 35 + Double(index * 8) + 9 * sin(tick * 0.4), cores: old.cores,
+                        memoryUsed: old.memoryUsed, memoryTotal: old.memoryTotal, gpus: gpus, gpuError: nil)
+                    host.updated = Date(timeIntervalSince1970: 1788220800 + seconds)
+                    host.history = (0..<60).map { 70 + 20 * sin((Double($0) + tick) * 0.18) }
+                }
+                try autoreleasepool {
+                    try render(DesktopView(store: store, previewToolbar: true), size: NSSize(width: 1100, height: 720),
+                        dark: frame >= 64, to: output.appendingPathComponent(String(format: "frame-%04d.png", frame)))
+                }
+            }
+            print("Rendered 80 synthetic video frames; no SSH connections")
+            return
         }
         let language = Localization.language
         try render(DesktopView(store: store, previewToolbar: true), size: NSSize(width: 1100, height: 720), to: output.appendingPathComponent("overview-\(language).png"))
