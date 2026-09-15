@@ -25,6 +25,16 @@ Check your remote training machines without opening another SSH terminal. NodePe
 
 **Mac:** Apple Silicon, macOS 13 or later. **Remote:** Linux and Python 3; NVIDIA GPU metrics require `nvidia-smi`.
 
+### Install with your coding agent
+
+Tell Codex or Claude Code running on your Mac:
+
+> Read https://github.com/YanjieZe/NodePeek/blob/main/docs/AGENT_INSTALL.md and follow it to build, install and verify NodePeek on this Mac. Preserve my SSH configuration and existing settings. Ask me which host to monitor.
+
+[Agent installation guide](docs/AGENT_INSTALL.md) · [Raw Markdown](https://raw.githubusercontent.com/YanjieZe/NodePeek/main/docs/AGENT_INSTALL.md)
+
+While this repo is private, your agent needs existing GitHub access. If it cannot read the URL, clone the repo using authenticated Git and ask it to read `docs/AGENT_INSTALL.md` locally. A cloud or remote Linux agent cannot install a macOS app on your Mac.
+
 ### Build from source
 
 Install [Apple Command Line Tools](https://developer.apple.com/xcode/resources/) first, then:

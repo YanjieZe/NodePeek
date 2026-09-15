@@ -19,6 +19,8 @@ jobs:
         run: test "$(uname -m)" = arm64
       - name: Test English, Chinese, config migration and metrics
         run: ./test.sh
+      - name: Verify source installation and upgrade
+        run: ./Tests/test_install.sh
       - name: Build and package (ad-hoc signed, not notarized)
         run: ./package.sh
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

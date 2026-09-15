@@ -10,6 +10,16 @@
 
 **当前为 private preview，仓库暂不公开。截图和 GIF 全部使用虚构机器与模拟指标。**
 
+## 让 Codex / Claude Code 帮你安装
+
+把这句话发给**运行在你 Mac 上的** coding agent：
+
+> 请阅读 https://github.com/YanjieZe/NodePeek/blob/main/docs/AGENT_INSTALL.md ，按指南在这台 Mac 上构建、安装并验证 NodePeek。保留我的 SSH 配置和现有设置，向我确认要监控的机器。
+
+仓库目前仍为 Private，需要已有 GitHub 访问权限。如果 agent 无法读取网页，可以先用已登录的 Git 克隆，再让它读取本地 `docs/AGENT_INSTALL.md`。公开后同一个链接仍可使用。远程 Linux 或云端 agent 无法直接安装到你的 Mac。
+
+安装脚本默认使用 `~/Applications/NodePeek.app`，不需要 sudo。已有版本需先退出，再用 `--replace` 升级；旧 app 会先备份。
+
 ## 功能
 
 - 首次启动从本机 SSH 配置选择机器，不默认连接任何主机。

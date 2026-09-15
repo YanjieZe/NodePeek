@@ -1,15 +1,16 @@
 # Installation
 
+For agent-assisted installation, see [AGENT_INSTALL.md](AGENT_INSTALL.md).
+
 ## Option A: build locally
 
 Use an Apple Silicon Mac on macOS 13+. Install Apple Command Line Tools, clone the repository and run:
 
 ```bash
-./build.sh
-open NodePeek.app
+./install.sh
 ```
 
-The app can then be moved to Applications. Local compilation does not require a paid Apple Developer membership.
+The script installs into `~/Applications/NodePeek.app` and opens it. Use `--no-open` to build and install without launching. For upgrades, quit NodePeek and run `./install.sh --replace`; the previous application is backed up to a ZIP before replacement. Local compilation does not require a paid Apple Developer membership.
 
 ## Option B: download the preview ZIP
 

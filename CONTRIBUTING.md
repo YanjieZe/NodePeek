@@ -10,3 +10,5 @@
 See [release instructions](docs/RELEASING.md) for packaging. The app currently targets Linux system metrics and NVIDIA GPUs, with no third-party runtime dependencies.
 
 The bundle identifier remains `local.remotemeter.app` to preserve preferences when upgrading from RemoteMeter. Keep this identifier stable.
+
+Installation changes must pass `./Tests/test_install.sh`, which installs into a temporary directory, checks overwrite refusal, upgrades and restores the backup without launching the app or touching SSH.

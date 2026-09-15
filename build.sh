@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")"
+./scripts/check-requirements.sh
 VERSION=$(tr -d '\n' < VERSION)
 [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo 'Invalid VERSION' >&2; exit 1; }
 mkdir -p .build
@@ -8,7 +9,7 @@ STAGING=$(mktemp -d "$PWD/.build/staging.XXXXXX")
 trap 'rm -rf "$STAGING"' EXIT
 APP="$STAGING/NodePeek.app"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-swiftc -swift-version 5 -O -parse-as-library -target arm64-apple-macosx13.0 Sources/*.swift -o "$APP/Contents/MacOS/NodePeek"
+xcrun --sdk macosx swiftc -swift-version 5 -O -parse-as-library -target arm64-apple-macosx13.0 Sources/*.swift -o "$APP/Contents/MacOS/NodePeek"
 cp Resources/AppIcon.icns Resources/MenuIcon.png Resources/collector.py "$APP/Contents/Resources/"
 cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>

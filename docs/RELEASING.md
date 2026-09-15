@@ -4,6 +4,7 @@
 
 ```bash
 ./test.sh
+./Tests/test_install.sh
 ./package.sh
 ```
 
@@ -19,8 +20,9 @@
 To prepare a version, edit `VERSION`, `CFBundleVersion` in `build.sh`, and `docs/RELEASE_NOTES.md`; run tests and packaging, commit, then tag:
 
 ```bash
-git tag v0.7.0
-git push origin v0.7.0
+VERSION=$(tr -d '\n' < VERSION)
+git tag "v$VERSION"
+git push origin "v$VERSION"
 ```
 
 Review the workflow result and draft release. Repository visibility remains private until explicitly changed by the owner; publishing a release does not change repository visibility.
