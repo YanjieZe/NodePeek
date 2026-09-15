@@ -1,0 +1,28 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test-and-build:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Verify Apple Silicon runner
+        run: test "$(uname -m)" = arm64
+      - name: Test English, Chinese, config migration and metrics
+        run: ./test.sh
+      - name: Build and package (ad-hoc signed, not notarized)
+        run: ./package.sh
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: RemoteMeter-macOS-arm64
+          path: dist/*
+          retention-days: 14

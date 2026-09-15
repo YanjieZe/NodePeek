@@ -1,0 +1,27 @@
+name: Draft release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  draft:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Validate version and runner
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          test "$(uname -m)" = arm64
+          test "$TAG_NAME" = "v$(tr -d '\n' < VERSION)"
+      - run: ./test.sh
+      - run: ./package.sh
+      - name: Create private-repository draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          gh release create "$TAG_NAME" dist/* --verify-tag --draft --prerelease \
+            --title "RemoteMeter $TAG_NAME" --notes-file docs/RELEASE_NOTES.md

@@ -1,0 +1,12 @@
+.DS_Store
+*.app/
+.build/
+build/
+__pycache__/
+*.pyc
+preview.png
+app-smoke.json
+panel-preview.png
+dist/
+*.ips
+*.log

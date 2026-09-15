@@ -1,0 +1,30 @@
+name: Bug report
+description: Report unexpected behavior
+title: '[Bug] '
+body:
+  - type: markdown
+    attributes:
+      value: 'Remove hostnames, usernames, IPs and paths from shared logs. Never include private keys or full SSH configs.'
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: RemoteMeter version, macOS version, Mac chip, remote Linux distribution and GPU model.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Redacted diagnostics or screenshots
