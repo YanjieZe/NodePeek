@@ -3,7 +3,7 @@ import Foundation
 // Follow macOS language preferences. The environment override is for tests and demo renders.
 enum Localization {
     static var language: String {
-        let preferred = ProcessInfo.processInfo.environment["REMOTEMETER_LANGUAGE"] ?? Locale.preferredLanguages.first ?? "en"
+        let preferred = ProcessInfo.processInfo.environment["NODEPEEK_LANGUAGE"] ?? Locale.preferredLanguages.first ?? "en"
         return preferred.lowercased().hasPrefix("zh") ? "zh-Hans" : "en"
     }
     static let english: [String: String] = [
@@ -15,7 +15,7 @@ enum Localization {
         "GPU 指标不可用": "GPU metrics unavailable",
         "GPU 最高": "Peak GPU",
         "RM · 离线": "RM · Offline",
-        "RemoteMeter 远程资源监控": "RemoteMeter remote resource monitor",
+        "NodePeek 远程资源监控": "NodePeek remote resource monitor",
         "SSH 启动失败": "SSH failed to start",
         "SSH 或采集程序退出（{0}）": "SSH or collector exited ({0})",
         "SSH 端口拒绝连接": "SSH connection refused",
@@ -74,7 +74,7 @@ enum Localization {
         "检查 SSH 别名和 HostName 拼写；若是内网域名，请先连接相应 VPN 或网络。": "Check the SSH alias and HostName spelling. Connect to the appropriate VPN or network for internal domains.",
         "检查 SSH 配置中的 User 和 IdentityFile。若密钥有口令，请在终端用 ssh-add 解锁密钥，再重新连接。应用使用非交互认证。": "Check User and IdentityFile in your SSH config. Unlock passphrase-protected keys with ssh-add in Terminal, then retry. The app uses non-interactive authentication.",
         "检查机器是否开机、SSH 服务是否运行，以及配置中的端口是否正确。": "Check that the host is on, SSH is running, and the configured port is correct.",
-        "欢迎使用 RemoteMeter": "Welcome to RemoteMeter",
+        "欢迎使用 NodePeek": "Welcome to NodePeek",
         "正在等待连接结果。首次连接和跳板机认证可能需要几秒钟。": "Waiting for a connection result. Initial connections and jump hosts may take a few seconds.",
         "此节点要求你有正在运行的作业。先申请节点资源，或选择集群允许访问的登录节点。": "This node requires an active job allocation. Request resources first, or choose a login node permitted by your cluster.",
         "每 5 秒更新": "Updates every 5s",
@@ -96,7 +96,7 @@ enum Localization {
         "网络连接超时或不可达": "Network timeout or unreachable",
         "菜单栏显示用量文字": "Show metrics in menu bar",
         "请先在 ~/.ssh/config 添加明确的 Host 别名，例如：": "Add an explicit Host alias to ~/.ssh/config, for example:",
-        "请在系统设置 → 通用 → 登录项中允许 RemoteMeter。": "Allow RemoteMeter in System Settings → General → Login Items.",
+        "请在系统设置 → 通用 → 登录项中允许 NodePeek。": "Allow NodePeek in System Settings → General → Login Items.",
         "请在远端安装 python3，并确保非交互 SSH 会话的 PATH 能找到它。不需要安装额外 Python 包。": "Install python3 on the remote host and ensure it is on the non-interactive SSH PATH. No extra Python packages are needed.",
         "远程机器": "Remote hosts",
         "远程机器，可拖拽排序": "Remote hosts, drag to reorder",
@@ -105,7 +105,7 @@ enum Localization {
         "连接中…": "Connecting…",
         "连接诊断": "Diagnostics",
         "连接超时 · 即将重试": "Connection timed out · retrying",
-        "退出 RemoteMeter": "Quit RemoteMeter",
+        "退出 NodePeek": "Quit NodePeek",
         "选择 SSH 机器，开始监控": "Choose SSH hosts to start monitoring",
         "选择机器": "Choose hosts",
         "选择机器…": "Choose hosts…",

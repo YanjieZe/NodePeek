@@ -5,11 +5,11 @@ import ServiceManagement
 
 #if !SMOKE_TEST
 @main
-struct RemoteMeterApp: App {
+struct NodePeekApp: App {
     @NSApplicationDelegateAdaptor(AppLifecycle.self) private var lifecycle
     @StateObject private var store = Store()
     var body: some Scene {
-        Window("RemoteMeter", id: "main") {
+        Window("NodePeek", id: "main") {
             DesktopView(store: store)
                 .background(HideOnClose().frame(width: 0, height: 0))
                 .onAppear { NSApp.activate(ignoringOtherApps: true) }

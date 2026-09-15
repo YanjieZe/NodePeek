@@ -6,7 +6,7 @@ Use an Apple Silicon Mac on macOS 13+. Install Apple Command Line Tools, clone t
 
 ```bash
 ./build.sh
-open RemoteMeter.app
+open NodePeek.app
 ```
 
 The app can then be moved to Applications. Local compilation does not require a paid Apple Developer membership.
@@ -17,10 +17,10 @@ The app can then be moved to Applications. Local compilation does not require a 
 2. Verify the checksum in the download folder, replacing VERSION with the actual version:
 
    ```bash
-   shasum -a 256 -c RemoteMeter-VERSION-macOS-arm64.zip.sha256
+   shasum -a 256 -c NodePeek-VERSION-macOS-arm64.zip.sha256
    ```
 
-3. Extract the ZIP and move RemoteMeter.app into Applications.
+3. Extract the ZIP and move NodePeek.app into Applications.
 4. Launch it. These builds are **ad-hoc signed, not Developer ID signed and not notarized**. If macOS blocks launch and you trust the source, follow [Apple's per-app Open Anyway instructions](https://support.apple.com/en-us/102445) in System Settings → Privacy & Security. This exception is your choice; the app does not make it for you. If the exception is unavailable, build from source instead.
 
 Do not disable Gatekeeper globally, remove unrelated quarantine attributes, or run the app as root. A checksum verifies consistency with the uploaded archive, not the trustworthiness of its author.

@@ -52,7 +52,7 @@ final class Store: ObservableObject {
     var current: HostMonitor? { monitors.first { $0.id == selected } }
     var title: String {
         if paused { return "RM ⏸" }
-        guard let host = current else { return "RemoteMeter" }
+        guard let host = current else { return "NodePeek" }
         guard host.online, let s = host.sample else { return L("RM · 离线") }
         let short = host.id.count > 16 ? String(host.id.prefix(15)) + "…" : host.id
         let percent = s.gpus.compactMap(\.utilization).max()
@@ -92,7 +92,7 @@ final class Store: ObservableObject {
             if SMAppService.mainApp.status == .enabled { try SMAppService.mainApp.unregister() }
             else { try SMAppService.mainApp.register() }
             launchAtLogin = SMAppService.mainApp.status == .enabled
-            settingsError = SMAppService.mainApp.status == .requiresApproval ? L("请在系统设置 → 通用 → 登录项中允许 RemoteMeter。") : ""
+            settingsError = SMAppService.mainApp.status == .requiresApproval ? L("请在系统设置 → 通用 → 登录项中允许 NodePeek。") : ""
         } catch { settingsError = error.localizedDescription }
     }
     func pause() {

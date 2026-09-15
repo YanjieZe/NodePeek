@@ -1,4 +1,6 @@
-# RemoteMeter
+# NodePeek
+
+*Your remote machines, at a glance.*
 
 在 Mac 菜单栏和桌面窗口查看远程机器的 GPU、CPU、内存用量。
 
@@ -26,10 +28,10 @@
 安装 Apple Command Line Tools 后可从源码构建：
 
 ```bash
-git clone https://github.com/YanjieZe/remotemeter.git
-cd remotemeter
+git clone https://github.com/YanjieZe/nodepeek.git
+cd nodepeek
 ./build.sh
-open RemoteMeter.app
+open NodePeek.app
 ```
 
 仓库仍为私有，克隆和下载需要访问权限。下载包在 Release 草稿或成功的 CI 任务中。**目前仅做本地 ad-hoc 签名，没有 Developer ID 签名和 Apple 公证**，首次打开可能被系统拦截。请阅读[安装说明](docs/INSTALL.md)，不要全局关闭 Gatekeeper。
@@ -37,7 +39,7 @@ open RemoteMeter.app
 ## 使用
 
 1. 在 `~/.ssh/config` 配好别名，先用终端确认 `ssh 别名` 可以连接。
-2. 启动 RemoteMeter，勾选想监控的机器。
+2. 启动 NodePeek，勾选想监控的机器。
 3. 左侧切换机器或查看全部总览；拖动行可排序。
 4. 遇到连接问题，点击“连接诊断”查看原因和检查命令。
 

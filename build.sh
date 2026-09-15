@@ -6,20 +6,20 @@ VERSION=$(tr -d '\n' < VERSION)
 mkdir -p .build
 STAGING=$(mktemp -d "$PWD/.build/staging.XXXXXX")
 trap 'rm -rf "$STAGING"' EXIT
-APP="$STAGING/RemoteMeter.app"
+APP="$STAGING/NodePeek.app"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-swiftc -swift-version 5 -O -parse-as-library -target arm64-apple-macosx13.0 Sources/*.swift -o "$APP/Contents/MacOS/RemoteMeter"
+swiftc -swift-version 5 -O -parse-as-library -target arm64-apple-macosx13.0 Sources/*.swift -o "$APP/Contents/MacOS/NodePeek"
 cp Resources/AppIcon.icns Resources/MenuIcon.png Resources/collector.py "$APP/Contents/Resources/"
 cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
-<key>CFBundleExecutable</key><string>RemoteMeter</string>
+<key>CFBundleExecutable</key><string>NodePeek</string>
 <key>CFBundleIdentifier</key><string>local.remotemeter.app</string>
 <key>CFBundleIconFile</key><string>AppIcon</string>
-<key>CFBundleName</key><string>RemoteMeter</string>
-<key>CFBundleDisplayName</key><string>RemoteMeter</string>
-<key>CFBundleVersion</key><string>10</string>
+<key>CFBundleName</key><string>NodePeek</string>
+<key>CFBundleDisplayName</key><string>NodePeek</string>
+<key>CFBundleVersion</key><string>11</string>
 <key>CFBundleShortVersionString</key><string>$VERSION</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>CFBundleDevelopmentRegion</key><string>en</string>
@@ -32,6 +32,6 @@ PLIST
 codesign --force --sign - "$APP"
 codesign --verify --deep --strict "$APP"
 # Replace only the generated app after compilation and verification have succeeded.
-if [[ -d RemoteMeter.app ]]; then mv RemoteMeter.app "$STAGING/previous.app"; fi
-mv "$APP" RemoteMeter.app
-printf 'Built %s/RemoteMeter.app (%s)\n' "$PWD" "$VERSION"
+if [[ -d NodePeek.app ]]; then mv NodePeek.app "$STAGING/previous.app"; fi
+mv "$APP" NodePeek.app
+printf 'Built %s/NodePeek.app (%s)\n' "$PWD" "$VERSION"

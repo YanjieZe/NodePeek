@@ -1,5 +1,8 @@
-## RemoteMeter 0.7.0 — private preview
+## NodePeek 0.7.1 — private preview
 
+Your remote machines, at a glance.
+
+- Renamed RemoteMeter to NodePeek; existing host selections and ordering are preserved.
 - Native macOS desktop and compact menu bar monitoring over SSH.
 - English and Simplified Chinese UI, following system language preferences.
 - First-run host selection, multi-host overview, per-GPU details and connection diagnostics.

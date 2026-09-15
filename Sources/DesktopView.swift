@@ -8,7 +8,7 @@ struct DesktopView: View {
     var body: some View {
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 12) {
-                HStack { Image(nsImage: appLogo).resizable().frame(width: 30, height: 30); Text("RemoteMeter").font(.title2.bold()) }
+                HStack { Image(nsImage: appLogo).resizable().frame(width: 30, height: 30); Text("NodePeek").font(.title2.bold()) }
                 HStack { Text(L("远程机器")); Spacer(); Text(L("拖拽排序")).font(.caption2) }.font(.caption).foregroundStyle(.secondary)
                 Button { store.overview = true } label: { Label(L("全部机器总览"), systemImage: "rectangle.grid.2x2").frame(maxWidth: .infinity, alignment: .leading) }.buttonStyle(.bordered)
                 MachineList(store: store)

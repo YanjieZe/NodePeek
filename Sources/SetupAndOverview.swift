@@ -9,7 +9,7 @@ struct SetupView: View {
     var filtered: [String] { store.hosts.filter { search.isEmpty || $0.localizedCaseInsensitiveContains(search) } }
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text(store.monitors.isEmpty ? L("欢迎使用 RemoteMeter") : L("选择监控机器")).font(.title2.bold())
+            Text(store.monitors.isEmpty ? L("欢迎使用 NodePeek") : L("选择监控机器")).font(.title2.bold())
             Text(L("从本机 SSH 配置中选择 Linux 机器。仅连接选中的机器，复用现有密钥与跳板设置。")).font(.callout).foregroundStyle(.secondary)
             HStack {
                 TextField(L("搜索 SSH 别名"), text: $search)

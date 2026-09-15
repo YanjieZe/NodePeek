@@ -9,7 +9,7 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: RemoteMeter version, macOS version, Mac chip, remote Linux distribution and GPU model.
+      description: NodePeek version, macOS version, Mac chip, remote Linux distribution and GPU model.
     validations:
       required: true
   - type: textarea

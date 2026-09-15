@@ -1,15 +1,15 @@
-<p align="center"><img src="Design/logo.png" width="96" alt="RemoteMeter icon"></p>
-<h1 align="center">RemoteMeter</h1>
-<p align="center">Remote GPU, CPU and memory monitoring — in your Mac menu bar.</p>
+<p align="center"><img src="Design/logo.png" width="96" alt="NodePeek icon"></p>
+<h1 align="center">NodePeek</h1>
+<p align="center">Your remote machines, at a glance.</p>
 <p align="center"><a href="README.zh-CN.md">简体中文</a> · <a href="docs/INSTALL.md">Installation</a> · <a href="CONTRIBUTING.md">Contributing</a> · <a href="LICENSE">MIT License</a></p>
 
 ![Multi-host overview](docs/assets/overview-en.png)
 
 **Private preview.** This repository is being prepared for a public release. All screenshots and the demo below use synthetic hosts and metrics.
 
-## Why RemoteMeter?
+## Why NodePeek?
 
-Check your remote training machines without opening another SSH terminal. RemoteMeter uses your existing SSH aliases, keys and jump hosts; no remote agent installation is required.
+Check your remote training machines without opening another SSH terminal. NodePeek uses your existing SSH aliases, keys and jump hosts; no remote agent installation is required.
 
 - **Fleet overview:** see CPU, memory, peak GPU utilization and combined VRAM across selected hosts.
 - **Dense GPU details:** one row per GPU, including utilization, VRAM, temperature and power.
@@ -30,17 +30,17 @@ Check your remote training machines without opening another SSH terminal. Remote
 Install [Apple Command Line Tools](https://developer.apple.com/xcode/resources/) first, then:
 
 ```bash
-git clone https://github.com/YanjieZe/remotemeter.git
-cd remotemeter
+git clone https://github.com/YanjieZe/nodepeek.git
+cd nodepeek
 ./build.sh
-open RemoteMeter.app
+open NodePeek.app
 ```
 
 The repository is currently private, so cloning requires access. No third-party Swift or Python runtime packages are needed.
 
 ### Download a build
 
-Invited repository members can obtain the ZIP from the private draft release or the latest successful [CI run](https://github.com/YanjieZe/remotemeter/actions). Extract it and move RemoteMeter.app to Applications.
+Invited repository members can obtain the ZIP from the private draft release or the latest successful [CI run](https://github.com/YanjieZe/nodepeek/actions). Extract it and move NodePeek.app to Applications.
 
 **Builds are ad-hoc signed, not Developer ID signed or notarized.** macOS may block the first launch. See [installation and Gatekeeper guidance](docs/INSTALL.md). No Apple Developer account is needed to build from source.
 
@@ -55,11 +55,11 @@ Host training-server
     IdentityFile ~/.ssh/id_ed25519
 ```
 
-Run `ssh training-server`, verify the host identity, and complete key/agent setup. Launch RemoteMeter and select the alias during first-run setup. No machine is contacted before you choose it.
+Run `ssh training-server`, verify the host identity, and complete key/agent setup. Launch NodePeek and select the alias during first-run setup. No machine is contacted before you choose it.
 
 ## How it works
 
-Each selected host gets one persistent SSH connection. An in-memory Python collector samples `/proc` and invokes `nvidia-smi`, returning JSON approximately every five seconds. RemoteMeter installs no remote files, packages or services.
+Each selected host gets one persistent SSH connection. An in-memory Python collector samples `/proc` and invokes `nvidia-smi`, returning JSON approximately every five seconds. NodePeek installs no remote files, packages or services.
 
 CPU is the busy fraction between `/proc/stat` samples. Memory is `MemTotal - MemAvailable`, shown in GiB. **Containers may expose host-level CPU/memory, not container quotas.** The overview uses maximum GPU utilization and summed VRAM across visible devices. GPU-specific unsupported counters display as unavailable.
 

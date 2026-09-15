@@ -10,7 +10,7 @@ struct Panel: View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
                 Image(nsImage: appLogo).resizable().frame(width: 25, height: 25)
-                Text("RemoteMeter").font(.system(size: 17, weight: .semibold))
+                Text("NodePeek").font(.system(size: 17, weight: .semibold))
                 Spacer()
                 Text("SSH MONITOR").font(.system(size: 9, weight: .medium, design: .monospaced)).foregroundStyle(.tertiary)
             }
@@ -54,7 +54,7 @@ struct Panel: View {
                     Button(L("打开主窗口")) { openWindow(id: "main"); restoreMainWindow(); NSApp.activate(ignoringOtherApps: true) }
                     Button(store.launchAtLogin ? L("✓ 登录时启动") : L("登录时启动")) { store.toggleLogin() }
                     Button(L("在 Finder 中显示 SSH 配置")) { NSWorkspace.shared.activateFileViewerSelecting([URL(fileURLWithPath: NSHomeDirectory() + "/.ssh/config")]) }
-                    Button(L("退出 RemoteMeter")) { NSApplication.shared.terminate(nil) }
+                    Button(L("退出 NodePeek")) { NSApplication.shared.terminate(nil) }
                 } label: { Image(systemName: "gearshape") }.menuStyle(.borderlessButton).fixedSize()
             }.buttonStyle(.borderless)
         }.padding(12).frame(width: 390)
