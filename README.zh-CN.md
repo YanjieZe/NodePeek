@@ -28,8 +28,8 @@
 安装 Apple Command Line Tools 后可从源码构建：
 
 ```bash
-git clone https://github.com/YanjieZe/nodepeek.git
-cd nodepeek
+git clone https://github.com/YanjieZe/NodePeek.git
+cd NodePeek
 ./build.sh
 open NodePeek.app
 ```

@@ -30,8 +30,8 @@ Check your remote training machines without opening another SSH terminal. NodePe
 Install [Apple Command Line Tools](https://developer.apple.com/xcode/resources/) first, then:
 
 ```bash
-git clone https://github.com/YanjieZe/nodepeek.git
-cd nodepeek
+git clone https://github.com/YanjieZe/NodePeek.git
+cd NodePeek
 ./build.sh
 open NodePeek.app
 ```
@@ -40,7 +40,7 @@ The repository is currently private, so cloning requires access. No third-party 
 
 ### Download a build
 
-Invited repository members can obtain the ZIP from the private draft release or the latest successful [CI run](https://github.com/YanjieZe/nodepeek/actions). Extract it and move NodePeek.app to Applications.
+Invited repository members can obtain the ZIP from the private draft release or the latest successful [CI run](https://github.com/YanjieZe/NodePeek/actions). Extract it and move NodePeek.app to Applications.
 
 **Builds are ad-hoc signed, not Developer ID signed or notarized.** macOS may block the first launch. See [installation and Gatekeeper guidance](docs/INSTALL.md). No Apple Developer account is needed to build from source.
 
