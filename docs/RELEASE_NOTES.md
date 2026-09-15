@@ -1,7 +1,9 @@
-## NodePeek 0.7.1 — private preview
+## NodePeek 0.7.2 — private preview
 
 Your remote machines, at a glance.
 
+- New eye-and-node icon, resizable material sidebar and native compact toolbar.
+- Semantic colors, improved selected-row contrast and refreshed light/dark previews.
 - Renamed RemoteMeter to NodePeek; existing host selections and ordering are preserved.
 - Native macOS desktop and compact menu bar monitoring over SSH.
 - English and Simplified Chinese UI, following system language preferences.

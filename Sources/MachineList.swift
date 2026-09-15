@@ -13,12 +13,20 @@ final class MachineCell: NSTableCellView {
             guard let host else { return }
             nameLabel.stringValue = host.id
             statusLabel.stringValue = "● " + host.status
-            statusLabel.textColor = host.online ? .systemMint : .systemOrange
+            updateColors()
             if host.online, let sample = host.sample {
                 metricsLabel.stringValue = "CPU " + number(sample.cpu, suffix: "%") + "   GPU " + number(sample.gpus.compactMap(\.utilization).max(), suffix: "%")
             } else { metricsLabel.stringValue = "" }
             setAccessibilityLabel(host.id + ", " + host.status)
         }
+    }
+    override var backgroundStyle: NSView.BackgroundStyle {
+        didSet { updateColors() }
+    }
+    private func updateColors() {
+        let selected = backgroundStyle == .emphasized
+        statusLabel.textColor = selected ? .alternateSelectedControlTextColor : (host?.online == true ? .systemGreen : .systemOrange)
+        metricsLabel.textColor = selected ? .alternateSelectedControlTextColor : .secondaryLabelColor
     }
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -59,9 +67,9 @@ struct MachineList: NSViewRepresentable {
         column.resizingMask = .autoresizingMask
         table.addTableColumn(column)
         table.headerView = nil
-        table.rowHeight = 72
+        table.rowHeight = 64
         table.intercellSpacing = NSSize(width: 0, height: 4)
-        table.style = .plain
+        table.style = .sourceList
         table.backgroundColor = .clear
         table.allowsMultipleSelection = false
         table.columnAutoresizingStyle = .uniformColumnAutoresizingStyle
@@ -103,7 +111,7 @@ struct MachineList: NSViewRepresentable {
                     (table.view(atColumn: 0, row: index, makeIfNecessary: false) as? MachineCell)?.host = rows[index]
                 }
             }
-            if let index = rows.firstIndex(where: { $0.id == store.selected }) {
+            if !store.overview, let index = rows.firstIndex(where: { $0.id == store.selected }) {
                 table.selectRowIndexes(IndexSet(integer: index), byExtendingSelection: false)
             } else { table.deselectAll(nil) }
             syncingSelection = false

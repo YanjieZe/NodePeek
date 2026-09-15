@@ -19,7 +19,7 @@ struct SetupView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text(L("未找到可用 SSH 别名")).font(.headline)
                     Text(L("请先在 ~/.ssh/config 添加明确的 Host 别名，例如：")).font(.callout)
-                    Text("Host training-server\n    HostName your-server.example.com\n    User your-user\n    IdentityFile ~/.ssh/id_ed25519").font(.system(size: 12, design: .monospaced)).textSelection(.enabled)
+                    Text("Host training-server\n    HostName your-server.example.com\n    User your-user\n    IdentityFile ~/.ssh/id_ed25519").font(.system(size: 12, design: .default)).textSelection(.enabled)
                     Text(L("保存后点击「重新读取」。通配符 Host 不会作为机器列出。")).font(.caption).foregroundStyle(.secondary)
                 }.padding(16).frame(maxWidth: .infinity, alignment: .leading).background(Color.primary.opacity(0.04), in: RoundedRectangle(cornerRadius: 8))
             } else {
@@ -49,7 +49,7 @@ struct SetupView: View {
 struct OverviewView: View {
     @ObservedObject var store: Store
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 18) {
                 Text(L("{0} / {1} 台在线", store.monitors.filter(\.online).count, store.monitors.count)).font(.headline)
                 Text(L("{0} 张可见 GPU", store.monitors.filter(\.online).reduce(0) { $0 + ($1.sample?.gpus.count ?? 0) })).foregroundStyle(.secondary)
@@ -92,7 +92,7 @@ private struct OverviewRow: View {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(host.id).font(.system(size: 12, weight: .semibold)).lineLimit(1).truncationMode(.middle)
                     HStack(spacing: 5) {
-                        Circle().fill(host.online ? Color.mint : Color.orange).frame(width: 5, height: 5)
+                        Circle().fill(host.online ? Color.green : Color.orange).frame(width: 5, height: 5)
                         Text(host.status).font(.system(size: 10)).foregroundStyle(.secondary).lineLimit(1)
                     }
                 }.frame(maxWidth: .infinity, alignment: .leading).contentShape(Rectangle())
@@ -102,7 +102,7 @@ private struct OverviewRow: View {
             Text(number(live?.gpus.compactMap(\.utilization).max(), suffix: "%")).frame(width: 65, alignment: .trailing)
             Text(gpuMemory).frame(width: 110, alignment: .trailing)
             Button { store.diagnosticHost = host } label: { Image(systemName: "stethoscope") }.frame(width: 40).help(L("连接诊断"))
-        }.font(.system(size: 11, design: .monospaced)).monospacedDigit().padding(10)
+        }.font(.system(size: 11, design: .default)).monospacedDigit().padding(10)
             .background(Color.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 7))
     }
 }

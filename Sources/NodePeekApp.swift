@@ -13,7 +13,7 @@ struct NodePeekApp: App {
             DesktopView(store: store)
                 .background(HideOnClose().frame(width: 0, height: 0))
                 .onAppear { NSApp.activate(ignoringOtherApps: true) }
-        }.defaultSize(width: 960, height: 720)
+        }.windowToolbarStyle(.unifiedCompact).defaultSize(width: 960, height: 720)
         MenuBarExtra(isInserted: Binding(get: { store.showMenuBar }, set: { value in if store.showMenuBar != value { store.showMenuBar = value } })) {
             Panel(store: store)
         } label: {

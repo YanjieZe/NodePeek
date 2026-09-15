@@ -2,10 +2,11 @@ import SwiftUI
 import AppKit
 @main
 struct Demo {
-    static func render<V: View>(_ root: V, size: NSSize, to url: URL) throws {
-        let view = NSHostingView(rootView: root.environment(\.colorScheme, .light).background(Color(nsColor: .windowBackgroundColor)))
+    static func render<V: View>(_ root: V, size: NSSize, dark: Bool = false, to url: URL) throws {
+        let view = NSHostingView(rootView: root.environment(\.colorScheme, dark ? .dark : .light).background(Color(nsColor: .windowBackgroundColor)))
         view.frame = NSRect(origin: .zero, size: size)
         let window = NSWindow(contentRect: view.frame, styleMask: [.borderless], backing: .buffered, defer: false)
+        window.appearance = NSAppearance(named: dark ? .darkAqua : .aqua)
         window.contentView = view
         view.layoutSubtreeIfNeeded()
         RunLoop.main.run(until: Date().addingTimeInterval(0.1))
@@ -34,9 +35,10 @@ struct Demo {
             host.history = (0..<60).map { Double(72 + (($0 * 7) % 24)) }
         }
         let language = Localization.language
-        try render(DesktopView(store: store), size: NSSize(width: 1100, height: 720), to: output.appendingPathComponent("overview-\(language).png"))
+        try render(DesktopView(store: store, previewToolbar: true), size: NSSize(width: 1100, height: 720), to: output.appendingPathComponent("overview-\(language).png"))
         store.overview = false
-        try render(DesktopView(store: store), size: NSSize(width: 1100, height: 720), to: output.appendingPathComponent("detail-\(language).png"))
+        try render(DesktopView(store: store, previewToolbar: true), size: NSSize(width: 1100, height: 720), to: output.appendingPathComponent("detail-\(language).png"))
+        try render(DesktopView(store: store, previewToolbar: true), size: NSSize(width: 960, height: 640), dark: true, to: output.appendingPathComponent("detail-dark-\(language).png"))
         let failed = HostMonitor("example-server")
         failed.online = false; failed.status = L("离线 · {0} 秒后重试", 15)
         failed.issue = ConnectionIssue.classify("Permission denied (publickey).")
