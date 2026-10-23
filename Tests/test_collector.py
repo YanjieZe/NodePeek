@@ -34,4 +34,10 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(sample['gpus'], [])
         self.assertIsNotNone(sample['gpuError'])
 
+    def test_skip_gpu_never_calls_nvidia_smi(self):
+        with patch.dict(namespace, SKIP_GPU=True):
+            sample = self.run_sample({'side_effect': AssertionError('nvidia-smi must not run')})
+        self.assertEqual(sample['gpus'], [])
+        self.assertIsNone(sample['gpuError'])
+
 if __name__ == '__main__': unittest.main()

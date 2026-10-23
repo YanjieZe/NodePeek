@@ -21,6 +21,7 @@ final class Store: ObservableObject {
     @Published var paused = false
     @Published var launchAtLogin = SMAppService.mainApp.status == .enabled
     @Published var settingsError = ""
+    @Published var gpuSkipped: Set<String> = []
     private var timer: Timer?
     init(defaults: UserDefaults = .standard, configPath: String = NSHomeDirectory() + "/.ssh/config", startMonitoring: Bool = true) {
         self.defaults = defaults
@@ -29,10 +30,11 @@ final class Store: ObservableObject {
         showMenuBar = defaults.object(forKey: "showMenuBar") as? Bool ?? true
         showMenuMetrics = defaults.bool(forKey: "showMenuMetrics")
         reload()
+        gpuSkipped = Set(defaults.stringArray(forKey: "gpuSkippedHosts") ?? [])
         let saved = defaults.stringArray(forKey: "enabledHosts")
         let initial = saved ?? []
         showSetup = saved == nil
-        monitors = initial.filter { hosts.contains($0) }.map(HostMonitor.init)
+        monitors = initial.filter { hosts.contains($0) }.map(makeMonitor)
         if !monitors.contains(where: { $0.id == selected }) { selected = monitors.first?.id ?? "" }
         guard startMonitoring else { return }
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
@@ -67,9 +69,7 @@ final class Store: ObservableObject {
         let retained = monitors.filter { choices.contains($0.id) && hosts.contains($0.id) }
         let retainedIDs = Set(retained.map(\.id))
         monitors.filter { !retainedIDs.contains($0.id) }.forEach { $0.stop() }
-        let additions = hosts.filter { choices.contains($0) && !retainedIDs.contains($0) }.map { id in
-            let monitor = HostMonitor(id); monitor.enabled = !paused; return monitor
-        }
+        let additions = hosts.filter { choices.contains($0) && !retainedIDs.contains($0) }.map(makeMonitor)
         monitors = retained + additions
         if !monitors.contains(where: { $0.id == selected }) { selected = monitors.first?.id ?? "" }
         defaults.set(monitors.map(\.id), forKey: "enabledHosts")
@@ -78,10 +78,22 @@ final class Store: ObservableObject {
     }
     func toggle(_ host: String) {
         if let index = monitors.firstIndex(where: { $0.id == host }) { monitors[index].stop(); monitors.remove(at: index) }
-        else { let monitor = HostMonitor(host); monitor.enabled = !paused; monitors.append(monitor) }
+        else { monitors.append(makeMonitor(host)) }
         if !monitors.contains(where: { $0.id == selected }) { selected = monitors.first?.id ?? "" }
         defaults.set(monitors.map(\.id), forKey: "enabledHosts")
         defaults.set(selected, forKey: "selectedHost")
+    }
+    private func makeMonitor(_ id: String) -> HostMonitor {
+        let monitor = HostMonitor(id)
+        monitor.enabled = !paused
+        monitor.skipGPU = gpuSkipped.contains(id)
+        return monitor
+    }
+    // Per-host switch: the collector stops calling nvidia-smi so the GPU can be reset or the driver unloaded.
+    func toggleGPU(_ host: String) {
+        if gpuSkipped.contains(host) { gpuSkipped.remove(host) } else { gpuSkipped.insert(host) }
+        defaults.set(gpuSkipped.sorted(), forKey: "gpuSkippedHosts")
+        monitors.first { $0.id == host }?.setSkipGPU(gpuSkipped.contains(host))
     }
     func moveHosts(from source: IndexSet, to destination: Int) {
         monitors.move(fromOffsets: source, toOffset: destination)

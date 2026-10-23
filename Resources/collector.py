@@ -1,4 +1,7 @@
-import csv, io, json, os, subprocess, time
+import csv, io, json, os, subprocess, sys, time
+
+# 'nogpu' keeps nvidia-smi from opening the driver, so the host can reset GPUs or unload the module.
+SKIP_GPU = 'nogpu' in sys.argv[1:]
 
 def cpu_ticks():
     with open('/proc/stat') as f:
@@ -14,22 +17,23 @@ def sample(previous):
     total = memory['MemTotal']
     available = memory.get('MemAvailable', memory.get('MemFree', 0))
     gpus, error = [], None
-    try:
-        result = subprocess.run(['nvidia-smi', '--query-gpu=index,name,utilization.gpu,memory.used,memory.total,temperature.gpu,power.draw', '--format=csv,noheader,nounits'], capture_output=True, text=True, timeout=3)
-        if result.returncode:
-            error = result.stderr.strip()[:250] or 'nvidia-smi failed'
-        else:
-            for row in csv.reader(io.StringIO(result.stdout)):
-                if len(row) != 7:
-                    continue
-                def number(value):
-                    try: return float(value.strip())
-                    except ValueError: return None
-                gpus.append(dict(index=row[0].strip(), name=row[1].strip(), utilization=number(row[2]), used=number(row[3]), total=number(row[4]), temperature=number(row[5]), power=number(row[6])))
-    except FileNotFoundError:
-        error = 'nvidia-smi not found (no NVIDIA GPU or driver installed)'
-    except subprocess.TimeoutExpired:
-        error = 'nvidia-smi timed out'
+    if not SKIP_GPU:
+        try:
+            result = subprocess.run(['nvidia-smi', '--query-gpu=index,name,utilization.gpu,memory.used,memory.total,temperature.gpu,power.draw', '--format=csv,noheader,nounits'], capture_output=True, text=True, timeout=3)
+            if result.returncode:
+                error = result.stderr.strip()[:250] or 'nvidia-smi failed'
+            else:
+                for row in csv.reader(io.StringIO(result.stdout)):
+                    if len(row) != 7:
+                        continue
+                    def number(value):
+                        try: return float(value.strip())
+                        except ValueError: return None
+                    gpus.append(dict(index=row[0].strip(), name=row[1].strip(), utilization=number(row[2]), used=number(row[3]), total=number(row[4]), temperature=number(row[5]), power=number(row[6])))
+        except FileNotFoundError:
+            error = 'nvidia-smi not found (no NVIDIA GPU or driver installed)'
+        except subprocess.TimeoutExpired:
+            error = 'nvidia-smi timed out'
     return dict(cpu=cpu, cores=os.cpu_count() or 0, memoryUsed=(total-available)/1048576, memoryTotal=total/1048576, gpus=gpus, gpuError=error), current
 
 previous = cpu_ticks()

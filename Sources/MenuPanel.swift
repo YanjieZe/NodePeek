@@ -37,7 +37,7 @@ struct Panel: View {
                         Text(L("全部机器")).font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)
                         ForEach(store.monitors) { host in
                             Button { store.selected = host.id } label: {
-                                HStack { Circle().fill(host.online ? Color.mint : Color.orange).frame(width: 6, height: 6); Text(host.id).lineLimit(1); Spacer(); Text(host.online ? number(host.sample?.gpus.compactMap(\.utilization).max(), suffix: "% GPU") : host.status).foregroundStyle(.secondary).lineLimit(1) }.font(.system(size: 11)).padding(.vertical, 4).contentShape(Rectangle())
+                                HStack { Circle().fill(host.online ? Color.mint : Color.orange).frame(width: 6, height: 6); Text(host.id).lineLimit(1); Spacer(); Text(host.online ? (host.skipGPU ? "GPU ⏸" : number(host.sample?.gpus.compactMap(\.utilization).max(), suffix: "% GPU")) : host.status).foregroundStyle(.secondary).lineLimit(1) }.font(.system(size: 11)).padding(.vertical, 4).contentShape(Rectangle())
                             }.buttonStyle(.plain)
                         }
                     }
@@ -47,6 +47,8 @@ struct Panel: View {
             HStack {
                 Text(L("每 5 秒更新")).font(.system(size: 10)).foregroundStyle(.secondary)
                 Spacer()
+                Button { if let host = store.current { store.toggleGPU(host.id) } } label: { Image(systemName: store.current?.skipGPU == true ? "eye.slash" : "eye") }
+                    .help(store.current?.skipGPU == true ? L("恢复此机 GPU 采集") : L("暂停此机 GPU 采集（不调用 nvidia-smi）")).disabled(store.current == nil)
                 Button { store.current?.reconnect() } label: { Image(systemName: "arrow.clockwise") }.help(L("重新连接当前机器")).disabled(store.paused)
                 Button { store.pause() } label: { Image(systemName: store.paused ? "play.fill" : "pause.fill") }.help(store.paused ? L("继续监控") : L("暂停全部监控"))
                 Menu {

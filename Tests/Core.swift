@@ -29,6 +29,11 @@ struct CoreTests {
         reopened.configure(Set(["delta", "beta", "gamma"]))
         precondition(reopened.monitors.last?.enabled == false)
         precondition(store().monitors.map(\.id) == ["delta", "beta", "gamma"])
+        reopened.toggleGPU("gamma")
+        precondition(reopened.monitors.last?.skipGPU == true && reopened.gpuSkipped == ["gamma"])
+        precondition(store().monitors.last?.skipGPU == true && store().monitors.first?.skipGPU == false, "GPU skip must persist per host")
+        reopened.toggleGPU("gamma")
+        precondition(reopened.monitors.last?.skipGPU == false && store().gpuSkipped.isEmpty)
         let missing = Store(defaults: prefs, configPath: root.appendingPathComponent("missing").path, startMonitoring: false)
         precondition(missing.hosts.isEmpty && missing.monitors.isEmpty)
         let coordinator = MachineList.Coordinator(reopened)
@@ -61,6 +66,6 @@ struct CoreTests {
         precondition(shellQuote("a'b") == "'a'\\''b'")
         precondition(L("已选 {0} 台", 3) == (Localization.language == "en" ? "3 selected" : "已选 3 台"))
         precondition(!Localization.english.isEmpty)
-        print("PASS: onboarding, config discovery, saved-order migration, session reuse, paused additions, missing config, native reorder and 10 diagnostic categories")
+        print("PASS: onboarding, config discovery, saved-order migration, session reuse, paused additions, per-host GPU skip, missing config, native reorder and 10 diagnostic categories")
     }
 }

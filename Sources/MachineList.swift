@@ -15,7 +15,7 @@ final class MachineCell: NSTableCellView {
             statusLabel.stringValue = "● " + host.status
             updateColors()
             if host.online, let sample = host.sample {
-                metricsLabel.stringValue = "CPU " + number(sample.cpu, suffix: "%") + "   GPU " + number(sample.gpus.compactMap(\.utilization).max(), suffix: "%")
+                metricsLabel.stringValue = "CPU " + number(sample.cpu, suffix: "%") + "   GPU " + (host.skipGPU ? "⏸" : number(sample.gpus.compactMap(\.utilization).max(), suffix: "%"))
             } else { metricsLabel.stringValue = "" }
             setAccessibilityLabel(host.id + ", " + host.status)
         }

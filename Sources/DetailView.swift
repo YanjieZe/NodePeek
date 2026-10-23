@@ -32,6 +32,10 @@ struct HostDetail: View {
                 Spacer()
                 if let date = host.updated { Text(date, style: .time).foregroundStyle(.secondary) }
             }.font(.system(size: 11))
+            if host.skipGPU {
+                Label(L("GPU 采集已暂停：不再调用 nvidia-smi，可以 reset GPU 或卸载驱动。CPU 与内存照常采集。"), systemImage: "eye.slash")
+                    .font(.system(size: 11)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
+            }
             if !host.detail.isEmpty {
                 Text(host.detail).font(.system(size: 11)).foregroundStyle(.orange).textSelection(.enabled).fixedSize(horizontal: false, vertical: true)
             }

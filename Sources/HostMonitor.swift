@@ -13,6 +13,7 @@ final class HostMonitor: ObservableObject, Identifiable {
     @Published var rawError = ""
     @Published var online = false
     @Published var history: [Double] = []
+    @Published var skipGPU = false
     private var process: Process?
     private var inputPipe: Pipe?
     private var outputPipe: Pipe?
@@ -43,6 +44,12 @@ final class HostMonitor: ObservableObject, Identifiable {
         nextAttempt = .distantPast
         if enabled { connect() }
     }
+    func setSkipGPU(_ skip: Bool) {
+        guard skip != skipGPU else { return }
+        skipGPU = skip
+        sample = nil; history = []
+        reconnect()
+    }
     func stop() {
         generation = UUID()
         outputPipe?.fileHandleForReading.readabilityHandler = nil
@@ -65,7 +72,7 @@ final class HostMonitor: ObservableObject, Identifiable {
         let p = Process(), out = Pipe(), err = Pipe(), input = Pipe()
         p.executableURL = URL(fileURLWithPath: "/usr/bin/ssh")
         let encoded = Data(source.utf8).base64EncodedString()
-        let command = "python3 -u -c \"import base64;exec(base64.b64decode('\(encoded)'))\""
+        let command = "python3 -u -c \"import base64;exec(base64.b64decode('\(encoded)'))\"" + (skipGPU ? " nogpu" : "")
         p.arguments = ["-T", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=yes", "-o", "ConnectTimeout=10", "-o", "ConnectionAttempts=1", "-o", "ServerAliveInterval=10", "-o", "ServerAliveCountMax=2", "-o", "ForwardAgent=no", "-o", "ForwardX11=no", id, command]
         p.standardOutput = out; p.standardError = err; p.standardInput = input
         process = p; outputPipe = out; errorPipe = err; inputPipe = input

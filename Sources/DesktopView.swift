@@ -78,10 +78,14 @@ struct DesktopView: View {
             }.font(.system(size: 12)).padding(.horizontal, 14).padding(.bottom, 12).padding(.top, 4)
         }.background(SidebarMaterial())
     }
+    private var gpuHelp: String { store.current?.skipGPU == true ? L("恢复此机 GPU 采集") : L("暂停此机 GPU 采集（不调用 nvidia-smi）") }
     private var controls: some View {
         HStack(spacing: 12) {
             Button { store.pause() } label: { Label(store.paused ? L("继续") : L("暂停"), systemImage: store.paused ? "play" : "pause") }
                 .help(store.paused ? L("继续") : L("暂停"))
+            Button { if let host = store.current { store.toggleGPU(host.id) } } label: {
+                Label(gpuHelp, systemImage: store.current?.skipGPU == true ? "eye.slash" : "eye")
+            }.disabled(store.current == nil || store.overview).help(gpuHelp).accessibilityLabel(gpuHelp)
             Button { store.diagnosticHost = store.current } label: { Label(L("连接诊断"), systemImage: "stethoscope") }
                 .disabled(store.current == nil || store.overview).help(L("连接诊断")).accessibilityLabel(L("连接诊断"))
             Button { if store.overview { store.monitors.forEach { $0.reconnect() } } else { store.current?.reconnect() } } label: { Label(L("重新连接"), systemImage: "arrow.clockwise") }

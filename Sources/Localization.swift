@@ -7,6 +7,9 @@ enum Localization {
         return preferred.lowercased().hasPrefix("zh") ? "zh-Hans" : "en"
     }
     static let english: [String: String] = [
+        "GPU 采集已暂停：不再调用 nvidia-smi，可以 reset GPU 或卸载驱动。CPU 与内存照常采集。": "GPU collection paused: nvidia-smi is no longer called, so GPUs can be reset or the driver unloaded. CPU and memory are still collected.",
+        "恢复此机 GPU 采集": "Resume GPU collection on this host",
+        "暂停此机 GPU 采集（不调用 nvidia-smi）": "Pause GPU collection on this host (no nvidia-smi)",
         "25 秒未收到指标，请检查网络、SSH 或远程 python3。": "No metrics received for 25 seconds. Check the network, SSH connection, and remote Python 3.",
         "CPU / 内存为系统视角，可能包含同机其他任务。": "CPU and memory reflect the remote system, including other workloads.",
         "CPU · {0} 逻辑核": "CPU · {0} threads",

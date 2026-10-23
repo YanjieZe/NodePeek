@@ -61,7 +61,7 @@ struct OverviewView: View {
                 Text(L("内存 GiB")).frame(width: 110, alignment: .trailing)
                 Text(L("GPU 最高")).frame(width: 65, alignment: .trailing)
                 Text(L("显存 GiB")).frame(width: 110, alignment: .trailing)
-                Text(L("操作")).frame(width: 40)
+                Text(L("操作")).frame(width: 60)
             }.font(.system(size: 10)).foregroundStyle(.secondary).padding(.horizontal, 10)
             Divider()
             ForEach(store.monitors) { host in
@@ -99,9 +99,13 @@ private struct OverviewRow: View {
             }.buttonStyle(.plain)
             Text(number(live?.cpu, suffix: "%")).frame(width: 52, alignment: .trailing)
             Text(memory).frame(width: 110, alignment: .trailing)
-            Text(number(live?.gpus.compactMap(\.utilization).max(), suffix: "%")).frame(width: 65, alignment: .trailing)
+            Text(host.skipGPU ? "⏸" : number(live?.gpus.compactMap(\.utilization).max(), suffix: "%")).frame(width: 65, alignment: .trailing)
             Text(gpuMemory).frame(width: 110, alignment: .trailing)
-            Button { store.diagnosticHost = host } label: { Image(systemName: "stethoscope") }.frame(width: 40).help(L("连接诊断"))
+            HStack(spacing: 10) {
+                Button { store.toggleGPU(host.id) } label: { Image(systemName: host.skipGPU ? "eye.slash" : "eye") }
+                    .help(host.skipGPU ? L("恢复此机 GPU 采集") : L("暂停此机 GPU 采集（不调用 nvidia-smi）"))
+                Button { store.diagnosticHost = host } label: { Image(systemName: "stethoscope") }.help(L("连接诊断"))
+            }.frame(width: 60)
         }.font(.system(size: 11, design: .default)).monospacedDigit().padding(10)
             .background(Color.primary.opacity(0.035), in: RoundedRectangle(cornerRadius: 7))
     }
