@@ -58,6 +58,7 @@ struct HostDetail: View {
                         }.font(.system(size: 10)).foregroundStyle(.secondary).padding(.horizontal, 8).padding(.vertical, 7)
                         Divider()
                         ForEach(s.gpus) { gpu in
+                          VStack(spacing: 0) {
                             HStack(spacing: 6) {
                                 Text(gpu.index).foregroundStyle(Color.accentColor).frame(width: 28, alignment: .leading).help(gpu.name)
                                 Text(number(gpu.utilization, suffix: "%"))
@@ -75,7 +76,9 @@ struct HostDetail: View {
                                 Text(number(gpu.power, suffix: "W")).frame(width: 44, alignment: .trailing)
                             }.font(.system(size: 12, weight: .medium, design: .default)).monospacedDigit()
                                 .padding(.horizontal, 8).frame(height: 30)
-                                .background((Int(gpu.index) ?? 0) % 2 == 0 ? Color.primary.opacity(0.025) : Color.clear)
+                            ForEach(gpu.procs ?? []) { proc in ProcRow(proc: proc) }
+                          }
+                          .background((Int(gpu.index) ?? 0) % 2 == 0 ? Color.primary.opacity(0.025) : Color.clear)
                         }
                     }.background(Color.primary.opacity(0.025), in: RoundedRectangle(cornerRadius: 7))
                 }
@@ -110,5 +113,22 @@ struct HostDetail: View {
                 }
             }.frame(height: 3)
         }.padding(9).frame(maxWidth: .infinity, alignment: .leading).background(Color.primary.opacity(0.04), in: RoundedRectangle(cornerRadius: 7))
+    }
+}
+
+// Who holds this GPU: user, memory, and a short command (hover for the full command line).
+struct ProcRow: View {
+    let proc: GPUProc
+    var body: some View {
+        HStack(spacing: 6) {
+            Text(proc.user).fontWeight(.semibold).lineLimit(1).frame(width: 58, alignment: .leading)
+            Text(proc.used.map { String(format: "%.1f GiB", $0 / 1024) } ?? "—").monospacedDigit().frame(width: 60, alignment: .trailing)
+            Text(proc.command.isEmpty ? L("其他容器的进程 · pid {0}", proc.pid) : proc.command)
+                .foregroundStyle(.secondary).lineLimit(1).truncationMode(.tail)
+            Spacer(minLength: 0)
+        }
+        .font(.system(size: 10.5))
+        .padding(.leading, 42).padding(.trailing, 8).padding(.bottom, 6)
+        .help(proc.full.isEmpty ? "pid \(proc.pid)" : "pid \(proc.pid) · \(proc.full)")
     }
 }

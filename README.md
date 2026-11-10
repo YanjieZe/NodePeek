@@ -13,6 +13,7 @@ Check your remote training machines without opening another SSH terminal. NodePe
 
 - **Fleet overview:** see CPU, memory, peak GPU utilization and combined VRAM across selected hosts.
 - **Dense GPU details:** one row per GPU, including utilization, VRAM, temperature and power.
+- **Who is on each GPU:** under each GPU, the user, VRAM and run name of every process holding it; hover for the full command line.
 - **Menu bar access:** a compact icon by default, with optional live metrics.
 - **Native macOS behavior:** drag to reorder hosts; close the window to keep monitoring in the background; restore it from the Dock.
 - **Connection diagnostics:** explanations and next steps for authentication, host-key, network, Slurm and dependency errors.

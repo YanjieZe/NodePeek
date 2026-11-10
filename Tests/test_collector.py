@@ -40,4 +40,19 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(sample['gpus'], [])
         self.assertIsNone(sample['gpuError'])
 
+    def test_processes_attach_to_their_gpu(self):
+        gpu = types.SimpleNamespace(returncode=0, stdout='0, NVIDIA H100, 100, 50000, 143771, 60, 600, GPU-a\n1, NVIDIA H100, 0, 0, 143771, 30, 70, GPU-b\n', stderr='')
+        apps = types.SimpleNamespace(returncode=0, stdout='GPU-a, 4242, 50000\n', stderr='')
+        sample = self.run_sample({'side_effect': lambda args, **_: apps if '--query-compute-apps=gpu_uuid,pid,used_memory' in args else gpu})
+        self.assertEqual([p['pid'] for p in sample['gpus'][0]['procs']], [4242])
+        self.assertEqual(sample['gpus'][0]['procs'][0]['used'], 50000)
+        self.assertEqual(sample['gpus'][1]['procs'], [])
+
+    def test_short_command_prefers_run_name(self):
+        short = namespace['short_command']
+        self.assertEqual(short(['/venv/bin/python3.11', '-u', '/a/b/launch.py', '--lr', '1e-5', '--output_dir', '/data/runs/v5', '--experiment_name', 'v5']), 'v5 · launch.py')
+        self.assertEqual(short(['python', '-m', 'trainer.main', '--config=/x/y/base.yaml']), 'base.yaml · main')
+        self.assertEqual(short(['/usr/bin/vllm', 'serve', '/models/qwen']), 'vllm serve qwen')
+        self.assertEqual(short([]), '')
+
 if __name__ == '__main__': unittest.main()

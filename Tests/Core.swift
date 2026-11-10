@@ -66,6 +66,10 @@ struct CoreTests {
         precondition(shellQuote("a'b") == "'a'\\''b'")
         precondition(L("已选 {0} 台", 3) == (Localization.language == "en" ? "3 selected" : "已选 3 台"))
         precondition(!Localization.english.isEmpty)
+        // Per-GPU processes decode; older collectors without "procs" still decode.
+        let json = #"{"cpu":1,"cores":2,"memoryUsed":1,"memoryTotal":2,"gpus":[{"index":"0","name":"GPU","utilization":100,"used":1,"total":2,"temperature":null,"power":null,"procs":[{"pid":7,"user":"alice","used":1024,"command":"python launch.py","full":"python /a/launch.py"}]},{"index":"1","name":"GPU","utilization":0,"used":0,"total":2,"temperature":null,"power":null}],"gpuError":null}"#
+        let decoded = try! JSONDecoder().decode(Sample.self, from: Data(json.utf8))
+        precondition(decoded.gpus[0].procs?.first?.user == "alice" && decoded.gpus[1].procs == nil)
         print("PASS: onboarding, config discovery, saved-order migration, session reuse, paused additions, per-host GPU skip, missing config, native reorder and 10 diagnostic categories")
     }
 }

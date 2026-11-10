@@ -43,6 +43,7 @@ enum Localization {
         "全部机器总览": "All hosts overview",
         "内存 GiB": "RAM GiB",
         "利用率": "Utilization",
+        "其他容器的进程 · pid {0}": "Process in another container · pid {0}",
         "功耗": "Power",
         "取消": "Cancel",
         "向管理员核实新指纹。确认是重装或更换机器后，再更新对应的 known_hosts 记录。应用不会自动忽略身份校验。": "Verify the new fingerprint with the administrator. Update the corresponding known_hosts entry only after confirming the change. The app never bypasses host verification.",
